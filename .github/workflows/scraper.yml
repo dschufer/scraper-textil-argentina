@@ -1,0 +1,36 @@
+name: 🧵 Scraper Textil Argentina
+
+on:
+  workflow_dispatch:  # Botón manual en GitHub
+  schedule:
+    - cron: '0 8 * * 1'  # Todos los lunes a las 8am UTC (automático)
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: 📥 Descargar repo
+        uses: actions/checkout@v4
+
+      - name: 🐍 Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Instalar dependencias
+        run: |
+          pip install playwright
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: 🔍 Correr scraper
+        run: python main.py
+
+      - name: 📊 Subir CSV como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: leads-textil-${{ github.run_number }}
+          path: leads_textil_argentina.csv
+          retention-days: 30
