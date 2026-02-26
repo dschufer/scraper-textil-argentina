@@ -1,5 +1,5 @@
 """
-🗺️ Google Maps Scraper - Fabricantes Textil Argentina
+🗺️ Google Maps Scraper - Fabricantes Textil Argentina 1
 Versión GitHub Actions (Playwright headless)
 """
 
@@ -45,14 +45,15 @@ async def scrape():
             args=["--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu", "--lang=es-AR"]
         )
         page = await browser.new_page()
-        await page.set_extra_http_headers({"Accept-Language": "es-AR,es"})
+        await page.set_extra_http_headers({"Accept-Language": "es-AR,es,en-US;q=0.9"})
+        await page.set_viewport_size({"width": 1280, "height": 900})
 
         for busqueda in BUSQUEDAS:
             print(f"\n🔍 {busqueda}", flush=True)
             url = "https://www.google.com/maps/search/" + busqueda.replace(" ", "+")
             try:
-                await page.goto(url, wait_until="networkidle", timeout=30000)
-                await asyncio.sleep(random.uniform(2, 4))
+                await page.goto(url, wait_until="domcontentloaded", timeout=60000)
+                await asyncio.sleep(random.uniform(4, 6))
 
                 for _ in range(6):
                     try:
