@@ -1,5 +1,5 @@
 """
-🗺️ Google Maps Scraper - Fabricantes Textil Argentina
+🗺️ Google Maps Scraper - Fabricantes Textil Argentina 1
 Versión Railway con Selenium + Chromium del sistema
 """
 
